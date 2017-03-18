@@ -47,7 +47,7 @@
 (defn navigation-bar [{:keys [site-items]}]
     [:div.header
       [:nav.container {:role "navigation"}   
-        [:div.site [:a {:href "/"} "hj's blog"]]
+        [:div.site [:a {:href "/"} [:img {:src "./images/ub_blog.svg"}]]]
         [:ul (for [item site-items]
           [:li [:a {:href (:url item)} (:name item)]])
     

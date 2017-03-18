@@ -54,23 +54,29 @@ body {
 }
 
 .header {
-  line-height: 50px;
   .site {
+    padding-top:5px;
     display: inline-block;
     font-weight: 700;
     font-size: 110%;
     margin-right: 25px;
+    a{
+      overflow: hidden;
+      height: 25px;
+    }
   }
 
   nav{
     ul {
-        display: inline-block;
         padding: 0;
         margin: 0;
+        float: right;
+        padding-top: 5px;
+        overflow: hidden;        
         li {
-        display: inline-block;
-        list-style: none;
-        margin: 0px 10px;
+          display: inline-block;
+          list-style: none;
+          margin: 0px 10px;
         }
     }
   }
@@ -137,7 +143,7 @@ ul {
 
 ul, ol {
   li {
-    padding-bottom: 10px;
+    padding-bottom: 0px;
   }
 }
 
@@ -207,7 +213,7 @@ h3 span {
     padding-left: 40px;
     ul.tag-cloud {
         padding: 0px;
-        margin: 0;
+        margin: 10px 0 0 0;
         li {
             display: inline-block;
             list-style: none;
