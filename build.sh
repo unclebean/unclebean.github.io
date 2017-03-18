@@ -22,3 +22,5 @@ git commit -m "Build from ${revision}."
 git push origin master
 )
 
+rm -rf gh-pages
+
