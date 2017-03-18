@@ -55,6 +55,7 @@ body {
 }
 
 .header {
+  padding-top: 20px;
   .site {
     padding-top:5px;
     display: inline-block;
@@ -205,18 +206,11 @@ h3 span {
   height: 100%;
 }
 
-.date{
-    color: gray;
-    font-size: 18px;
-    font-style: italic;
-    margin-top: 0;
-}
-
 .tags{
-    padding-left: 40px;
+    padding-left: 10px;
     ul.tag-cloud {
-        padding: 0px;
-        margin: 10px 0 0 0;
+        padding: 20px 0;
+        margin: 0px;
         li {
             display: inline-block;
             list-style: none;
@@ -232,6 +226,35 @@ h3 span {
             }
         }
     }
+    .tag{
+      .posts{
+        padding-top: 0px;
+      }
+    }
+}
+
+.posts{
+  padding-top: 20px;
+  padding-left: 10px;
+  .secondary{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    .desc{
+      color: gray;
+      font-size: 12px;
+      flex: 1;
+    }
+    .date{
+      color: gray;
+      font-size: 12px;
+      font-style: italic;
+      margin-top: 0;
+      text-align: right;
+      flex: 0.5;
+      padding-right: 20px;
+    }
+  }
 }
 
 .post{

@@ -32,11 +32,10 @@
                 [:li.tag [:a {:href (str "#" tag)} tag]]))]
           (for [[tag posts] posts-by-tags]
             (if tag
-                [:div
+                [:div.tag
                     [:h3 [:a {:name tag}] tag]
-                    [:ul
-                        (for [{:keys [permalink title]} (sort-by :title posts)]
-                            [:li [:a {:href permalink} title]])]]
+                    (common/render-posts posts)
+                ]
             ))
         ]]
       (common/footer)])))

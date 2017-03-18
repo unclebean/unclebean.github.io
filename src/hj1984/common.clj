@@ -58,3 +58,16 @@
    [:div.container
     [:ul
      [:li [:a {:href "https://github.com/unclebean"} "github.com/unclebean"]]]]])
+
+(defn render-posts [posts]
+    [:ul.posts.columns.small-12
+          (for [{:keys [permalink title date-published description]} (sort-by :date-created #(compare %2 %1) posts)]
+            [:article {:itemprop "blogPost" :itemscope "" :itemtype "http://schema.org/BlogPosting"}
+              [:h3
+                [:a.title {:href permalink :itemprop "name"} title]
+                [:div.secondary
+                  [:span.desc description]
+                  [:span.date (datestr date-published)]]               
+              ]])  
+    ]
+)

@@ -11,15 +11,7 @@
       (common/navigation-bar global-meta)
       [:div.main 
         [:div.container
-          [:ul.items.columns.small-12
-
-              
-          (for [{:keys [permalink title date-published]} posts]
-        [:article {:itemprop "blogPost" :itemscope "" :itemtype "http://schema.org/BlogPosting"}
-         [:h3
-          [:div.date (common/datestr date-published)]
-          [:a.title {:href permalink :itemprop "name"}
-           title]]])  
-      ]]]
+          (common/render-posts posts)
+        ]]
       (common/footer)
     ]))
