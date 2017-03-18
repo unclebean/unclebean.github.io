@@ -1,7 +1,0 @@
-{:base-url "http://unclebean.github.io/hj1984/"
- :site-title "Hou Jian's Blog"
- :description "2017 start clojure!"
- :site-items [{:name "Tags" :url "/tags"}
-              ;{:name "Photos" :url "/photos"}
-              {:name "About" :url "/about.html"}]
-}
