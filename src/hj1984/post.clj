@@ -6,7 +6,7 @@
 
 (defn render [{global-meta :meta posts :entries post :entry}]
   (html5 {:lang "en" :itemtype "http://schema.org/Blog"}
-    (common/head global-meta)
+    (common/head-with-keywords global-meta (:title post))
     [:body
       (common/navigation-bar global-meta)
       [:div.main 

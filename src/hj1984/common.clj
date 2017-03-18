@@ -22,6 +22,10 @@
    [:script "hljs.initHighlightingOnLoad();"]
    ])
 
+(defn head-with-keywords [global-meta title]
+  (assoc-in (head global-meta) [1 1] title)
+)
+
 (defn disquss [id]
   [:div [:div#disqus_thread]
    [:script {:type "text/javascript"}
