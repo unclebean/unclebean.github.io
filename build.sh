@@ -14,9 +14,11 @@ git pull
 boot build
 cp -r target/public/* gh-pages
 
+(
 cd gh-pages
 
 git add --all
 git commit -m "Build from ${revision}."
 git push origin master
+)
 
