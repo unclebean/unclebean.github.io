@@ -594,6 +594,7 @@ body {
   float: right;
   padding-top: 5px;
   overflow: hidden;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .header nav ul li {
   display: inline-block;
