@@ -775,3 +775,7 @@ h3 span {
   letter-spacing: -.003em;
   margin: 0px;
 }
+p img {
+  width: 100%;
+  height: 100%;
+}
