@@ -32,3 +32,5 @@ draft: true
 > rust最特别的，我觉得应该是可以在方法上定义入参和返回值的生命周期。
 
 > rust通过[...]这样的方式定义annotation，他的test function也是这样的[test]
+
+> rust 异常处理是通过expect来做的，具体还需要继续学习。
