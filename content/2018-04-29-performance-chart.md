@@ -16,6 +16,8 @@ draft: false
 
 #### 使用jupyter和Plotly创建性能分析图
 
+[EN](https://unclebean.github.io/performance-chart_en.html) [中文](https://unclebean.github.io/performance-chart.html)
+
 编程到底是性能更重要还是可读、可维护更重要，我想不同语言的拥护者各有答案。但是基准测试对于所有语言的使用者来讲都是个有趣的话题，因为基准测试可以帮助我们写出即可读、可维护又相对高性能的代码。为什么是又呢，性能真的是一个只能相对的概念吧 ：）
 
 什么是基准测试呢, 这是[wikipedia](https://en.wikipedia.org/wiki/Benchmark_(computing))的解释：
@@ -79,4 +81,4 @@ fig = go.Figure(data=data, layout=layout)
 py.iplot(fig, filename='grouped-bar')
 ```
 
-![plot](https://unclebean.github.io/images/newplot.png)
+![plot](https://unclebean.github.io/images/newplot.png)https://unclebean.github.io/
