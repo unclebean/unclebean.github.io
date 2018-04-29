@@ -10,7 +10,7 @@ date-published: 2018-04-29
 headline:
 in-language: en
 keywords: jupyter plotly 
-draft: true
+draft: false
 
 ---
 
