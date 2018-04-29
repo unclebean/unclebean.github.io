@@ -18,10 +18,37 @@ draft: true
   I used long weekend to write a tiny elixir project to parse log doing analytics job. I remembered that I wrote same using java, golang, python, js to do the same job. I have to say elixir is comfortably. I really enjoy to use elixir. 
 
   There are some features I really like from elixir
-  
-  1. case pattern match
-  2. Enum functions e.g map, reduce, filter
-  3. function pipeline.
-  4. write unit test is easy.
-  5. gen server & supervisor 
-  6. marco 
+
+    1. case pattern match
+    2. Enum functions e.g map, reduce, filter
+    3. function pipeline.
+    4. write unit test is easy.
+    5. gen server & supervisor 
+    6. marco 
+
+#### Create elixir project
+
+  mix new project-name
+
+  mix archive.uninstall phx_new
+
+  mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
+
+  mix phoenix.new rumbl
+
+  mix phoenix.server
+
+  iex -S mix
+
+  mix test
+
+  iex> recompile()
+
+  mix deps.get && mix deps.compile
+
+  mix ecto.gen.repo
+
+### Useful link
+
+[10 Killer Elixir Tips](https://medium.com/blackode/10-killer-elixir-tips-2-c5f87f8a70c8)
+
