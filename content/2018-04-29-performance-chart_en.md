@@ -26,12 +26,12 @@ What's benchmark, there is explanation from [wikipedia](https://en.wikipedia.org
 
 Whatever it's for function benchmark or http server benchmark. We are looking forward to get better solution to resolve the problem. I use a bunch of benchmark tools, I'm going to write a series blog for each tool. For now I just recommand some useful tools:
 
-- [jmh](http://openjdk.java.net/projects/code-tools/jmh/)java official benchmark tool.
-- [Benchmark.js](https://benchmarkjs.com/)javascript/nodejs benchmark tool。
-- [benchpress](https://github.com/angular/angular/tree/master/packages/benchpress)angular official e2e performance tool, this is my fevourite frontend performance tool, because it's not only for angular app but also can be used for other frontend app.
-- [perf-tools](https://github.com/brendangregg/perf-tools)linux benchmark tool, basically for every programming language.
-- [ab](https://httpd.apache.org/docs/2.4/programs/ab.html)apache http server benchmark tool。
-- [hey](https://github.com/rakyll/hey)go-lang implemented http server benchmark tool。
+- [jmh](http://openjdk.java.net/projects/code-tools/jmh/) java official benchmark tool.
+- [Benchmark.js](https://benchmarkjs.com/) javascript/nodejs benchmark tool。
+- [benchpress](https://github.com/angular/angular/tree/master/packages/benchpress) angular official e2e performance tool, this is my fevourite frontend performance tool, because it's not only for angular app but also can be used for other frontend app.
+- [perf-tools](https://github.com/brendangregg/perf-tools) linux benchmark tool, basically for every programming language.
+- [ab](https://httpd.apache.org/docs/2.4/programs/ab.html) apache http server benchmark tool。
+- [hey](https://github.com/rakyll/hey) go-lang implemented http server benchmark tool。
 
 Beside **benchpress**, all are command line tools, so we have to find a way to make benchmark data visualisation. I found out [Plotly.js](https://plot.ly/javascript/), it's a very good javascript library to generate chart. it also has a lot API to support other programming languages, such as scala, python, R…see [there](https://plot.ly/api/). I like python API, because can use with jupyter.
 

@@ -26,12 +26,12 @@ draft: false
 
 其实不管是专注于function的benchmark，还是http server的benchmark都是希望借助基准测试找到更优的实现方式。我用过的基准测试工具不多，之后打算把每一个工具写一个文章记录一下。这里列举一些，也算是一个推荐：
 
-* [jmh](http://openjdk.java.net/projects/code-tools/jmh/)java的官方benchmark工具，在有了jshell之后这个工具使用起来应该会更方便一些了，甚至不需要继承到项目里面。
-* [Benchmark.js](https://benchmarkjs.com/)javascript/nodejs的benchmark工具。
-* [benchpress](https://github.com/angular/angular/tree/master/packages/benchpress)angular官方的e2e performance工具，这个是我非常喜欢的前端performance工具了，其实不只是可以用来测试angular app，因为它是基于h5 performance API的工具，所以可以用在任何前端项目上。
-* [perf-tools](https://github.com/brendangregg/perf-tools)linux下的benchmark工具，基本可以用来对任何语言进行基准测试。
-* [ab](https://httpd.apache.org/docs/2.4/programs/ab.html)apache http server benchmark tool。
-* [hey](https://github.com/rakyll/hey)go语言实现的http server benchmark tool。
+* [jmh](http://openjdk.java.net/projects/code-tools/jmh/) java的官方benchmark工具，在有了jshell之后这个工具使用起来应该会更方便一些了，甚至不需要继承到项目里面。
+* [Benchmark.js](https://benchmarkjs.com/) javascript/nodejs的benchmark工具。
+* [benchpress](https://github.com/angular/angular/tree/master/packages/benchpress) angular官方的e2e performance工具，这个是我非常喜欢的前端performance工具了，其实不只是可以用来测试angular app，因为它是基于h5 performance API的工具，所以可以用在任何前端项目上。
+* [perf-tools](https://github.com/brendangregg/perf-tools) linux下的benchmark工具，基本可以用来对任何语言进行基准测试。
+* [ab](https://httpd.apache.org/docs/2.4/programs/ab.html) apache http server benchmark tool。
+* [hey](https://github.com/rakyll/hey) go语言实现的http server benchmark tool。
 
 这些工具，除了**benchpress**其他都是命令行工具，都没有办法生成可视化图表，所以我一直想找一个能把benchmark的分析数据可视化的好办法。于是乎我就找到了[Plotly.js](https://plot.ly/javascript/)，没错这是一个前端库，但是他提供了众多其他编程语言的集成API，具体可以看[这里](https://plot.ly/api/)。我最喜欢的python的API，可以非常方便的和jupyter一起使用。
 
