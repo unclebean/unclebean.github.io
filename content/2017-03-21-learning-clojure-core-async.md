@@ -95,7 +95,7 @@ Let's compare two version execution time:
 
 ![multiple channels](https://unclebean.github.io/images/clojure-async-multi-channels.png)
 
-For now we can see seems we should use **single channel** version for this function, but I will continue to explore the right way...
+For now we can see seems we should use **single channel** version for this function, but I will continue to explore the right way…..
 
 
 
