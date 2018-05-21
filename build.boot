@@ -1,7 +1,7 @@
 (set-env!
  :source-paths #{"src"}
  :resource-paths #{"content"}
- :dependencies '[[org.clojure/clojure "1.8.0" :scope "provided"]
+ :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
                  [perun "0.4.2-SNAPSHOT"]
                  [hiccup "1.0.5"]
                  [pandeiro/boot-http "0.7.3"]
