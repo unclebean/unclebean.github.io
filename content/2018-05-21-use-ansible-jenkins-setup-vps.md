@@ -16,3 +16,10 @@ draft: true
 
 #### 使用ansible和jenkins快速搭建VPS
 
+##### agenda
+
+1. Ansible project structure 
+2. Manage sensitive info using vault
+3. Jenkins in docker
+4. SSH agent with ansible in Jenkins 
+5. Create vault file in Jenkins 
