@@ -24,7 +24,7 @@ draft: false
 
 [ansible vault](https://docs.ansible.com/ansible/2.4/vault.html)是ansible提供的用来管理密码和其它敏感数据的工具，通过**ansible-vault create file.yml**可以将密码或其它敏感数据保存在加密的文件里，这样就不必担心密码以明文的形式存储在配置文件里的问题了。在执行ansible-playbook时可以用**—ask-vault-pass**参数输入创建加密文件时输入的密码。但是在jenkins上执行时是没有办法输入vault密码的。虽然我们可以将vault密码保存在另一个文件中并通过**—vault-password-file**免密码输入，但是这样提交vault密码文件到github上一样等于暴露了敏感数据，因为任何人都可以通过**ansible-vault edit file.yml**输入vault密码来获取敏感数据。好在jenkins有[file operations plugin](https://plugins.jenkins.io/file-operations)可以在workplace里面创建vault password文件。这样就不需要将vault密码文件提交到branch了。
 
-![ansible-vault gift](public/images/ansible-vault.gif)
+![ansible-vault gift](https://unclebean.github.io/images/ansible-vault.gif)
 
 上面已经介绍了怎么用ansible-vault创建加密文件来保护敏感数据，在执行ansible-playbook时就可以使用之前创建的file.yml文件来传递password到ansible的任何task里。在下面的命令中**vault.txt**文件里面保存的是创建file.yml时输入的密码。**valut.txt**不可以提交到branch里面，因为那样等于暴露了加密的file.yml文件的内容。
 
@@ -35,4 +35,4 @@ ansible-playbook ./playbooks/main.yml -i ./production/inventory -u root --extra-
 
 所以在使用jenkins时需要使用到file operations，在Build Step里面创建vault.txt,并且在执行完jenkins build之后删除vault.txt。这样就可以非常安全的自动安装VPS需要的所有依赖程序，而不是每次都需要手动执行ansible命令了。
 
-![valut file](public/images/jenkins-file-operation.png)
+![valut file](https://unclebean.github.io/images/jenkins-file-operation.png)
