@@ -22,7 +22,7 @@ draft: false
 
 这篇文章的重点就是放在怎样通过ansible提供的密码保护工具vault和jenkins集成，方便的创建相对安全的VPS。关于ansible的项目结构，请看这篇介绍。
 
-[ansible vault](https://docs.ansible.com/ansible/2.4/vault.html)是ansible提供的用来管理密码和其它敏感数据的工具，通过**ansible-vault create file.yml**可以将密码或其它敏感数据保存在加密的文件里，这样就不必担心密码以明文的形式存储在配置文件里的问题了。在执行ansible-playbook时可以用**—ask-vault-pass**参数输入创建加密文件时输入的密码。但是在jenkins上执行时是没有办法输入vault密码的。虽然我们可以将vault密码保存在另一个文件中并通过**—vault-password-file**免密码输入，但是这样提交vault密码文件到github上一样等于暴露了敏感数据，因为任何人都可以通过**ansible-vault edit file.yml**输入vault密码来获取敏感数据。好在jenkins有[file operations plugin](https://plugins.jenkins.io/file-operations)可以在workplace里面创建vault password文件。这样就不需要将vault密码文件提交到branch了。
+[ansible vault](https://docs.ansible.com/ansible/2.4/vault.html)是ansible提供的用来管理密码和其它敏感数据的工具，通过 **ansible-vault create file.yml** 可以将密码或其它敏感数据保存在加密的文件里，这样就不必担心密码以明文的形式存储在配置文件里的问题了。在执行ansible-playbook时可以用 **—ask-vault-pass** 参数输入创建加密文件时输入的密码。但是在jenkins上执行时是没有办法输入vault密码的。虽然我们可以将vault密码保存在另一个文件中并通过 **—vault-password-file** 免密码输入，但是这样提交vault密码文件到github上一样等于暴露了敏感数据，因为任何人都可以通过 **ansible-vault edit file.yml** 输入vault密码来获取敏感数据。好在jenkins有[file operations plugin](https://plugins.jenkins.io/file-operations)可以在workplace里面创建vault password文件。这样就不需要将vault密码文件提交到branch了。
 
 ![ansible-vault gift](https://unclebean.github.io/images/ansible-vault.gif)
 
