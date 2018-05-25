@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html itemtype="http://schema.org/Blog" lang="en"><head><title>使用ansible和jenkins快速搭建VPS</title><meta charset="utf-8"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"><link href="/favicon.ico" rel="shortcut icon"><link href="/atom.xml" rel="alternate" title="Atom feed" type="application/atom+xml"><link href="/css/app.css" rel="stylesheet" type="text/css"><link href="https://fonts.googleapis.com/css?family=Source%2BCode%2BPro%7CArvo%3A400%2C700%7CDroid%2BSerif%3A400%2C400italic%2C700" rel="stylesheet" type="text/css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js" type="text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js" type="text/javascript"></script><script>hljs.initHighlightingOnLoad();</script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-94017226-1', 'auto');
+  ga('send', 'pageview');
+</script></head><body><div class="header"><nav class="container" role="navigation"><div class="site"><a href="/"><img src="/images/ub_blog.svg"></a></div><ul><li><a href="/tags">Tags</a></li><li><a href="/about.html">About</a></li></ul></nav></div><div class="main"><div class="container post"><h1>使用ansible和jenkins快速搭建VPS</h1><div><h4><a href="#使用ansible和jenkins快速搭建vps" id="使用ansible和jenkins快速搭建vps"></a>使用ansible和jenkins快速搭建VPS</h4>
+<p>通常当我们想要尝试一些新技术或者实现一些自己想用的工具时，我喜欢拥有更多控制权限的<a href="https://en.wikipedia.org/wiki/Virtual_private_server">VPS</a>部署应用。但是VPS我觉得并不能直接使用，因为尽管只是拿来做side project，依然需要保证基本的安全性，例如禁止root远程登录，只允许通过public key登录、端口管理、对于进程的监控、以及编程语言的各种依赖环境(当然可以直接使用docker，但是docker也是需要安装的)。</p>
+<p>以上这些准备工作我们完全可以通过<a href="https://github.com/ansible/ansible/">ansible</a>完成，为什么还需要jenkins呢？我一直使用<a href="https://www.digitalocean.com">digitalocean</a>, 这里请想象一下这样一个场景，我从digitalocean的网站购买了新的VPS，然后修改一下inventory文件，在本地执行ansible-playbook把需要安装的依赖全部装好就行了。没错如果只是自己使用的确已经足够了，可是每当我需要新的VPS就不得不自己执行同样的命令，并且如果需要和其他人一起使用这个VPS时，就不得不共享一些安全相关的信息，例如：密码、私钥… 所以如果可以借助jenkins来减少重复工作，并且最低限度的限制共享安全信息，我认为将会是最理想的办法。</p>
+<p>这篇文章的重点就是放在怎样通过ansible提供的密码保护工具vault和jenkins集成，方便的创建相对安全的VPS。关于ansible的项目结构，请看这篇介绍。</p>
+<p><a href="https://docs.ansible.com/ansible/2.4/vault.html">ansible vault</a>是ansible提供的用来管理密码和其它敏感数据的工具，通过<strong>ansible-vault create file.yml</strong>可以将密码或其它敏感数据保存在加密的文件里，这样就不必担心密码以明文的形式存储在配置文件里的问题了。在执行ansible-playbook时可以用**—ask-vault-pass<strong>参数输入创建加密文件时输入的密码。但是在jenkins上执行时是没有办法输入vault密码的。虽然我们可以将vault密码保存在另一个文件中并通过</strong>—vault-password-file<strong>免密码输入，但是这样提交vault密码文件到github上一样等于暴露了敏感数据，因为任何人都可以通过</strong>ansible-vault edit file.yml**输入vault密码来获取敏感数据。好在jenkins有<a href="https://plugins.jenkins.io/file-operations">file operations plugin</a>可以在workplace里面创建vault password文件。这样就不需要将vault密码文件提交到branch了。</p>
+<p><img src="public/images/ansible-vault.gif" alt="ansible-vault gift" /></p>
+<p>上面已经介绍了怎么用ansible-vault创建加密文件来保护敏感数据，在执行ansible-playbook时就可以使用之前创建的file.yml文件来传递password到ansible的任何task里。在下面的命令中<strong>vault.txt</strong>文件里面保存的是创建file.yml时输入的密码。<strong>valut.txt</strong>不可以提交到branch里面，因为那样等于暴露了加密的file.yml文件的内容。</p>
+<pre><code class="language-shell">#!/bin/bash
+ansible-playbook ./playbooks/main.yml -i ./production/inventory -u root --extra-vars '@file.yml' --vault-password-file=vault.txt
+</code></pre>
+<p>所以在使用jenkins时需要使用到file operations，在Build Step里面创建vault.txt,并且在执行完jenkins build之后删除vault.txt。这样就可以非常安全的自动安装VPS需要的所有依赖程序，而不是每次都需要手动执行ansible命令了。</p>
+<p><img src="public/images/jenkins-file-operation.png" alt="valut file" /></p>
+</div><aside class="comments"><div><div id="disqus_thread"></div><script type="text/javascript">var disqus_config = function () {
+            //this.page.url = 'http://unclebean.github.io/hugh/';
+            this.page.identifier = '/use-ansible-jenkins-setup-vps.html';
+        };
+        (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hj1984.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></noscript></div></aside></div></div><footer class="footer"><div class="container"><ul><li><a href="https://github.com/unclebean">github.com/unclebean</a></li></ul></div></footer><script>console.log("startup...");</script></body></html>
