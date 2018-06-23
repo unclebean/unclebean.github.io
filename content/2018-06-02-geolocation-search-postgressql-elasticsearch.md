@@ -159,4 +159,4 @@ curl -X GET "localhost:9200/places/_analyze" -H 'Content-Type: application/json'
 
 Conclusion:
 
-This is a very nice weekend for me because I pay back my another tech debt :fist_oncoming: , moving forward still need to think how to put everthing to jenkins maybe use docker. Hope it's not another debt :joy: 
+This is a very nice weekend for me because I pay back my another tech debt :fist_oncoming: , moving forward still need to think how to put everthing to jenkins maybe use docker. Hope it's not another debt :joy:  
