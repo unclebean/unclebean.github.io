@@ -68,4 +68,4 @@ draft: true
 
 4. strain
 
-   Hight Order function pass should with "&", e.g:**&is_even?/1** and calling should be **fun.()**.
+   Hight Order function pass should with "&", e.g:**&is_even?/1** and calling should be **fun.()**. 
