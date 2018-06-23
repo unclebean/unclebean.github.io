@@ -52,3 +52,20 @@ draft: true
 
 [10 Killer Elixir Tips](https://medium.com/blackode/10-killer-elixir-tips-2-c5f87f8a70c8)
 
+###Exercism
+
+1. nucleotide-count
+
+   This question want to tell us how to use **Enum.count** & how to put item into a amp, especially when we need to iterator a list and put every item of list to a map we should use **Enum.reduce** to put every item to a **%{}**, the reason is that Map is immutable data in elixir, when we use **Map.put** value to a map will create a new map.  
+
+2. secret-handshake
+
+   The question recommands using [Bitwise](https://hexdocs.pm/elixir/Bitwise.html) to check whether input code matching binary key. I jumped into a misunderstanding which is I think **&&&** left and right should pass binary value... acutally we should provide dicemal value to verify input code. Another thing I was learned from the question is we should not change variable inside **case** expression
+
+3. rotational-cipher
+
+   This is very interesting question, I learnt a lot from this question. **Char** in Elixir is ?Char e.g: ?A means ***char A***. Any String can be canverted to char list through **String.to_charlist**. We can initial Number list using range e.g: ***Enum.to_list(1..10)***. If we can visit item inside list we can use ***Enum.at([], index)***
+
+4. strain
+
+   Hight Order function pass should with "&", e.g:**&is_even?/1** and calling should be **fun.()**.

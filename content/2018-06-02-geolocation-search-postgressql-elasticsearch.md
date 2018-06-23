@@ -99,7 +99,7 @@ curl -X GET "localhost:9200/places/_search" -H 'Content-Type: application/json' 
 '
 ```
 
-My last quirement from elasticsearch is fulltext search at least supporting english and chinese. I googled a lots of articals how to support multiple anaylzer for different langugage in one field but seems those articles are not work for **6.2.4** version. So I want to record instruction hope can help people who wants to do the same thing.
+My last quirement from elasticsearch is fulltext search at least supporting english and chinese. I googled a lots of articles how to support multiple anaylzer for different langugage in one field but seems those articles are not work for **6.2.4** version. So I want to record instruction hope can help people who wants to do the same thing.
 
 For supporting chinese I follow the suggestion to use [IK Analysis](https://github.com/medcl/elasticsearch-analysis-ik) . To install IK analysis plugin we can use `./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip` command to install in elasticsearch. After that we need to create index to support multiple analyzer. E.g for city field we want to chinese uses ik analyzer and english uses english analyzer.
 
