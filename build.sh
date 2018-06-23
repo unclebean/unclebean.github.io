@@ -13,6 +13,7 @@ git pull
 
 boot build
 cp -r target/public/* gh-pages
+cp -r specs/* gh-pages
 
 (
 cd gh-pages
