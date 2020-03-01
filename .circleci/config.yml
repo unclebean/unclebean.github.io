@@ -24,5 +24,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "1b:53:b2:3b:13:e1:bc:cf:5f:a7:96:61:fd:d0:3d:4b"
+      - run: 
+          command: |
+            git config --global user.email ${email}
+            git config --global user.name ${userName} 
       - run: ./build.sh
 
