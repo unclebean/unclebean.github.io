@@ -8,7 +8,42 @@
   ga('create', 'UA-94017226-1', 'auto');
   ga('send', 'pageview');
 </script></head><body><div class="header"><nav class="container" role="navigation"><div class="site"><a href="/"><img src="/images/ub_blog.svg"></a></div><ul><li><a href="/tags">Tags</a></li><li><a href="/about.html">About</a></li></ul></nav></div><div class="main"><div class="container post"><h1>My side project CI/CD setup</h1><div><h4><a href="#my-side-project-cicd-setup" id="my-side-project-cicd-setup"></a>My Side project CI/CD setup</h4>
-<p>testing...</p>
+<blockquote>
+<p>Few years back, I started to use Jenkins as my main CI/CD tool. My all side projects are running on it.</p>
+<p>Since I would like to try different program languages, so I need many different program languages dependencies with my jenkins server. As of now is a little difficult to maintain a jenkins server by myself. So I look for an alternative tool.</p>
+</blockquote>
+<p>I choice CircleCI has no more reason, I don't compare with other tools. Because CircleCI can match my all requirements and it's very frindly for open source project.</p>
+<p>So what's my requirments?</p>
+<ol>
+<li>Can it support multi program languages?</li>
+<li>Can I easily install dependencies and run unit test?</li>
+<li>Can I deploy to my digital ocean server?</li>
+</ol>
+<p><em>So how does CircleCI to support multi program languages?</em></p>
+<p>CircleCI has a supported program languages <a href="https://circleci.com/docs/2.0/demo-apps/#section=welcome">list</a>. To choice the puticular program language running on CircleCI is very easy, it has a <a href="https://circleci.com/docs/2.0/using-orbs/">Orbs Concept</a>. For example if your project is python project then you just</p>
+<p>need to use python orbs.</p>
+<pre><code class="language-yaml">orbs:
+  python: circleci/python@0.2.1
+</code></pre>
+<p><em>For installing dependencies for the project</em></p>
+<p>In my current side project(a python project), I have couple of dependencies need to compile from the running environment. So I'm using docker to prepare third party libraries. In CircleCI can use <a href="https://circleci.com/docs/2.0/building-docker-images/">remote docker</a> build environment to build your docker image and push the image to docker hub. Just needs to add remote docker in job steps:</p>
+<pre><code class="language-yaml">- setup_remote_docker:
+    version: 18.06.0-ce
+</code></pre>
+<p><em>After build project then how to test it?</em></p>
+<p>Since I use docker, once I build a new docker image just need to add a test step into job then run container in interactive mode to run test. <strong>run_test</strong> is my shell case.</p>
+<pre><code class="language-yaml">- run:
+    command: docker run -it [image:tag] run_test
+    name: run test
+</code></pre>
+<p><em>Deployment to server</em></p>
+<p>I'm using DigitalOcean droplets running my all side projects. CircleCI can maintains all sensitive data in build settings as variables so I no need to put within project (that's the main reason why I use my private jenkins). But seems CircleCI runs ssh to remote server is not quite convenience, only can execute existing shell on that server, can't like jenkins the put shell in jenkins. There is the example:</p>
+<pre><code class="language-yaml"> - run:
+     name: Deploy master.
+     command: if [ &quot;${CIRCLE_BRANCH}&quot; == &quot;master&quot; ]; then ssh ${user}@${server} 'cd /home/deploy/deploy.sh'; else echo &quot;Skipped&quot;; fi
+
+</code></pre>
+<p>So far CircleCI is good enough for me and the free plan can build 2500 times per week. I already migrate 2 projects from Jenkins to CircleCI, not sure whether has any tool can do auto migration. I have one <a href="https://github.com/unclebean/init-env">ansible devops project</a> to setup linux server, when I want to create new digitalocean droplets I just need to add ip within my devops project it will auto initial all software on that server. I will migrate this project later should be interesting, if it's still working I can save 10$ per month 🥰.</p>
 </div><aside class="comments"><div><div id="disqus_thread"></div><script type="text/javascript">var disqus_config = function () {
             //this.page.url = 'http://unclebean.github.io/hugh/';
             this.page.identifier = '/my-side-project-cicd-setup.html';
