@@ -33,3 +33,11 @@ jobs:
             git config --global user.name ${userName} 
       - run: ./build.sh
 
+workflows:
+  main:
+    jobs:
+      - build
+          filters:
+            branches:
+              ignore:
+                - master 
