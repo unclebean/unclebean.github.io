@@ -31,4 +31,6 @@ jobs:
           command: |
             git config --global user.email ${email}
             git config --global user.name ${userName} 
-      - run: ./build.sh
+      - run: 
+          command: if [ "${CIRCLE_BRANCH}" == "blog" ]; then ./build.sh; else echo "Skipped"; fi
+
