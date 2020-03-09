@@ -104,6 +104,8 @@ share-image: /images/airflow.png
 * Visualization monitoring task status
 
   I used to build dashboard for spring-boot scheduler project, it uses to manage & monitor all scheduler jobs. I can't say it's not good, but as a good scheduler tool visualization & mannually trigger job is very important. So Airflow is really realy good, see below screenshot, it's from my airflow server. It's very clear to monitor every task status.
+
+
   ![task status](https://unclebean.github.io/images/airflow_status.png) 
 
 
