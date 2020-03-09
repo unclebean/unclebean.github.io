@@ -24,8 +24,6 @@
    [:meta {:charset "utf-8"}]
    [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge,chrome=1"}]
    [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0, user-scalable=no"}]
-   [:meta {:property "og:title" :content (:site-title global-meta)}]
-   [:meta {:property "og:image" :content "/images/ub.png"}]
    [:link {:rel "shortcut icon" :href "/favicon.ico"}]
    [:link {:rel "alternate" :type "application/atom+xml" :title "Atom feed" :href "/atom.xml"}]
    (include-css "/css/app.css")
@@ -38,6 +36,13 @@
 
 (defn head-with-keywords [global-meta title]
   (assoc-in (head global-meta) [1 1] title)
+)
+
+(defn head-with-keywords-and-share-image [global-meta title description share-image]
+  (conj (assoc-in (head global-meta) [1 1] title) 
+        [:meta {:property "og:image" :content share-image}]
+        [:meta {:property "og:title" :content title}]
+        [:meta {:property "og:description" :content description}])
 )
 
 (defn disquss [id]

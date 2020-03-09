@@ -11,6 +11,7 @@ headline:
 in-language: en
 keywords: CI/CD 
 draft: false 
+share-image: /images/cicd.png
 
 ---
 
