@@ -89,7 +89,7 @@ async def get_subscribed_item(symbol):
 
 As a small web framework, AIOHTTP the basic library only handle request and response. If you need response to handle html template you need to install [ aiohttp-jinja2](https://github.com/aio-libs/aiohttp-jinja2) separately. Of course only request & response can't create a web application, at least we need session and maybe DB related feature and more benefits. AIOHTTP has them but thery are all as plugin to present in AIOHTTP.
 
-**For HTTP Session & Security? **
+**For HTTP Session & Security?**
 
 if you need to have session & security handler then you need to install [aiohttp-session](https://github.com/aio-libs/aiohttp-session) & [aiohttp-security](https://github.com/aio-libs/aiohttp-security)
 
