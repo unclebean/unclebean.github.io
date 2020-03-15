@@ -17,7 +17,7 @@ share-image: /images/aiohttp.png
 
 #### Have fun using AIOHTTP
 
-> I need a sample web server framework to build a small app, I used to use django, it has everything even something I no need... I'm not blaming django, acutally django is a mature web framework. But I want some fun.
+> I need a simple web server framework to build a small app, I used to use django, it has everything even something I no need... I'm not blaming django, acutally django is a mature web framework. But I want some fun.
 
 I used to use java: [Struts 1](https://en.wikipedia.org/wiki/Apache_Struts_1), [JSF](https://en.wikipedia.org/wiki/JavaServer_Faces), [Spring MVC](https://en.wikipedia.org/wiki/Spring_Framework), node: [express](https://github.com/expressjs/express), [koa](https://koajs.com), clojure: [compojure](https://github.com/weavejester/compojure), elixir: [phoenix](https://www.phoenixframework.org), python: [django](https://www.djangoproject.com) to build web application. Actually every framework tries to resolve the basic problem - handle request/response, manage context.
 
