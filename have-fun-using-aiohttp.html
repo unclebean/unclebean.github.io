@@ -60,7 +60,7 @@ async def subscription_list(request):
 </code></pre>
 <p><strong>Request and Response that's all</strong></p>
 <p>As a small web framework, AIOHTTP the basic library only handle request and response. If you need response to handle html template you need to install <a href="https://github.com/aio-libs/aiohttp-jinja2"> aiohttp-jinja2</a> separately. Of course only request &amp; response can't create a web application, at least we need session and maybe DB related feature and more benefits. AIOHTTP has them but thery are all as plugin to present in AIOHTTP.</p>
-<p>**For HTTP Session &amp; Security? **</p>
+<p><strong>For HTTP Session &amp; Security?</strong></p>
 <p>if you need to have session &amp; security handler then you need to install <a href="https://github.com/aio-libs/aiohttp-session">aiohttp-session</a> &amp; <a href="https://github.com/aio-libs/aiohttp-security">aiohttp-security</a></p>
 <p><strong>For DB related CRUD/schema migration</strong></p>
 <p>AIOHTTP officially provide one async library for <a href="https://github.com/aio-libs/aiopg">postgresQL</a> and <a href="https://github.com/aio-libs/aiomysql">MySQL</a>, but you still can use <a href="https://www.sqlalchemy.org">SQLAlchemy</a> with any your favourite database. Acutally I use sqlalchemy with sqlite for fun 😊. For schema migration we also can use <a href="https://alembic.sqlalchemy.org/en/latest/">Alembic</a>. I have to say SQLAlchemy + Alembic is really powerful, no matter you use python or not.</p>

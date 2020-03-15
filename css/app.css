@@ -684,7 +684,6 @@ p.note {
 p {
   line-height: 1.5;
   word-wrap: break-word;
-  text-align: justify;
   hyphens: manual;
 }
 h3 span {
