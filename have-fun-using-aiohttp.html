@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html itemtype="http://schema.org/Blog" lang="en"><head><title>Have fun using AIOHTTP</title><meta charset="utf-8"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"><link href="/favicon.ico" rel="shortcut icon"><link href="/atom.xml" rel="alternate" title="Atom feed" type="application/atom+xml"><link href="/css/app.css" rel="stylesheet" type="text/css"><link href="https://fonts.googleapis.com/css?family=Source%2BCode%2BPro%7CArvo%3A400%2C700%7CDroid%2BSerif%3A400%2C400italic%2C700" rel="stylesheet" type="text/css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js" type="text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js" type="text/javascript"></script><script>hljs.initHighlightingOnLoad();</script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-94017226-1', 'auto');
+  ga('send', 'pageview');
+</script><meta content="/images/aiohttp.png" property="og:image"><meta content="Have fun using AIOHTTP" property="og:title"><meta content="Async HTTP client/server for asyncio and Python" property="og:description"></head><body><div class="header"><nav class="container" role="navigation"><div class="site"><a href="/"><img src="/images/ub_blog.svg"></a></div><ul><li><a href="/tags">Tags</a></li><li><a href="/about.html">About</a></li></ul></nav></div><div class="main"><div class="container post"><h1>Have fun using AIOHTTP</h1><div><h4><a href="#have-fun-using-aiohttp" id="have-fun-using-aiohttp"></a>Have fun using AIOHTTP</h4>
+<blockquote>
+<p>I need a sample web server framework to build a small app, I used to use django, it has everything even something I no need... I'm not blaming django, acutally django is a mature web framework. But I want some fun.</p>
+</blockquote>
+<p>I used to use java: <a href="https://en.wikipedia.org/wiki/Apache_Struts_1">Struts 1</a>, <a href="https://en.wikipedia.org/wiki/JavaServer_Faces">JSF</a>, <a href="https://en.wikipedia.org/wiki/Spring_Framework">Spring MVC</a>, node: <a href="https://github.com/expressjs/express">express</a>, <a href="https://koajs.com">koa</a>, clojure: <a href="https://github.com/weavejester/compojure">compojure</a>, elixir: <a href="https://www.phoenixframework.org">phoenix</a>, python: <a href="https://www.djangoproject.com">django</a> to build web application. Actually every framework tries to resolve the basic problem - handle request/response, manage context.</p>
+<p><strong>In Request side</strong> needs to think about how to handle request parameter &amp; request body.</p>
+<p><strong>In Response side</strong> needs to think about the return types, html, json, xml, binary...etc</p>
+<p><strong>For context</strong> the problem becomes user's session and how to do access control via authorization &amp; authentication.</p>
+<p>On top of the basic problems the benifit and main reason why you decide to choice one fromwork rather than others, I think it should be whether this framework can support new concept or popular features e.g graphQL, webScoket, reactive. Support not meanning the framework must have everything, whenever I need that feature I can easily to integrate or install the library for that framework. So the framework must be small &amp; flexible to start.</p>
+<p>AIOHTTP is the one who is small and has plugable library on demand.</p>
+<p>To describe AIOHTTP for short is that it's an <a href="https://docs.aiohttp.org/en/stable/">Async HTTP client/server for asyncio and Python</a></p>
+<blockquote>
+<p>Since I only use AIOHTTP server part, so this post only focuse on server part.</p>
+</blockquote>
+<p><strong>What's asyncio(coroutine)</strong></p>
+<p>asyncio is a builtin library for python to implement coroutine. AIOHTTP is based on this core library that means every request handler function in AIOHTTP is a async fuction and we can put the task as a couroutine task in an eventloop inside the handler function. So how the request handler looks like?</p>
+<pre><code class="language-python">@subscription_routes.view(&quot;/subscribeList&quot;)
+@aiohttp_jinja2.template(&quot;subscription.html&quot;)
+async def subscription_list(request):
+    web_session = await get_session(request)
+    user = web_session.get(&quot;user&quot;, {})
+    email = user.get(&quot;email&quot;, &quot;&quot;)
+    db_session = apply_session()
+    subs = []
+    for sub in db_session.query(Subscription).filter(Subscription.email == email).all():
+        try:
+            subs.append(await get_subscribed_item(sub.symbol))
+        except:
+            continue
+    return {&quot;subs&quot;: subs}
+
+</code></pre>
+<p>The every first two lines define request URL and response(for this example is html page).</p>
+<p>The function body is that I get user from http session and then query user subscribed items from database after that return all subscribed items to jinja2 template for rendering html.</p>
+<p>The important part is:</p>
+<pre><code class="language-python">await get_subscribed_item(sub.symbol)
+</code></pre>
+<p><strong>get_subscribed_item</strong> function relies on anohter web service so I have to wait for that API call to get full subscribed item. Since this function always take long time so I create an event loop to handle coroutine task  that request will not be block each other.</p>
+<p>There is the get_subscribed_item function:</p>
+<pre><code class="language-python">async def get_subscribed_item(symbol):
+    loop = asyncio.get_event_loop()
+    score, _, close_price, result = await loop.run_in_executor(None, xg_predict, symbol)
+    stock = await loop.run_in_executor(None, yf.Ticker, symbol)
+    stock_data = stock.history(period=&quot;1d&quot;)
+    return {
+        &quot;symbol&quot;: symbol,
+        &quot;predictScore&quot;: score,
+        &quot;currentPrice&quot;: stock_data[&quot;Close&quot;].values[0],
+        &quot;limit_up_down&quot;: round(100 * (result / close_price), 2),
+    }
+</code></pre>
+<p><strong>Request and Response that's all</strong></p>
+<p>As a small web framework, AIOHTTP the basic library only handle request and response. If you need response to handle html template you need to install <a href="https://github.com/aio-libs/aiohttp-jinja2"> aiohttp-jinja2</a> separately. Of course only request &amp; response can't create a web application, at least we need session and maybe DB related feature and more benefits. AIOHTTP has them but thery are all as plugin to present in AIOHTTP.</p>
+<p>**For HTTP Session &amp; Security? **</p>
+<p>if you need to have session &amp; security handler then you need to install <a href="https://github.com/aio-libs/aiohttp-session">aiohttp-session</a> &amp; <a href="https://github.com/aio-libs/aiohttp-security">aiohttp-security</a></p>
+<p><strong>For DB related CRUD/schema migration</strong></p>
+<p>AIOHTTP officially provide one async library for <a href="https://github.com/aio-libs/aiopg">postgresQL</a> and <a href="https://github.com/aio-libs/aiomysql">MySQL</a>, but you still can use <a href="https://www.sqlalchemy.org">SQLAlchemy</a> with any your favourite database. Acutally I use sqlalchemy with sqlite for fun 😊. For schema migration we also can use <a href="https://alembic.sqlalchemy.org/en/latest/">Alembic</a>. I have to say SQLAlchemy + Alembic is really powerful, no matter you use python or not.</p>
+<p><strong>Testing</strong></p>
+<p>We still can use <a href="https://docs.pytest.org/en/latest/">pytest</a> to do unit test, and AIOHTTP also provides an integration testing plugin of pytest for API testing <a href="https://docs.aiohttp.org/en/stable/testing.html">pytest-aiohttp</a>.</p>
+<p><strong>Simple made easy (Summary)</strong></p>
+<p>Sorry to borrow <a href="https://www.infoq.com/presentations/Simple-Made-Easy/">Rich Hickey</a>‘s saying for python AIOHTTP.</p>
+<p>If I go though all AIOHTTP details, I don't think one post can finish it. I may create anohter post for AIOHTTP details such as how to orgnize a project and how to build RESTful API ...</p>
+<p>For me I really like AIOHTTP because it has clear goal and whenever I need dependency I can find out it. Another fun is AIOHTTP has a boilerplate project call <strong><a href="https://github.com/aio-libs/create-aio-app">create-aio-app</a></strong> like reactjs has create react app. If you need to build a python based web app may think about it.</p>
+</div><aside class="comments"><div><div id="disqus_thread"></div><script type="text/javascript">var disqus_config = function () {
+            //this.page.url = 'http://unclebean.github.io/hugh/';
+            this.page.identifier = '/have-fun-using-aiohttp.html';
+        };
+        (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hj1984.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></noscript></div></aside></div></div><footer class="footer"><div class="container"><ul><li><a href="https://github.com/unclebean">github.com/unclebean</a></li></ul></div></footer><script>console.log("startup...");</script></body></html>
