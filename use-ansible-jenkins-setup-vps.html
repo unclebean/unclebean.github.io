@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html itemtype="http://schema.org/Blog" lang="en"><head><title>使用ansible和jenkins快速搭建VPS</title><meta charset="utf-8"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"><link href="/favicon.ico" rel="shortcut icon"><link href="/atom.xml" rel="alternate" title="Atom feed" type="application/atom+xml"><link href="/css/app.css" rel="stylesheet" type="text/css"><link href="https://fonts.googleapis.com/css?family=Source%2BCode%2BPro%7CArvo%3A400%2C700%7CDroid%2BSerif%3A400%2C400italic%2C700" rel="stylesheet" type="text/css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js" type="text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js" type="text/javascript"></script><script>hljs.initHighlightingOnLoad();</script><script>
+<html itemtype="http://schema.org/Blog" lang="en"><head><title>使用ansible和jenkins快速搭建VPS</title><meta charset="utf-8"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"><link href="/favicon.ico" rel="shortcut icon"><link href="/atom.xml" rel="alternate" title="Atom feed" type="application/atom+xml"><link href="/css/app.css" rel="stylesheet" type="text/css"><link href="https://fonts.googleapis.com/css?family=Source%2BCode%2BPro%7CArvo%3A400%2C700%7CDroid%2BSerif%3A400%2C400italic%2C700" rel="stylesheet" type="text/css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js" type="text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js" type="text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script><script>hljs.initHighlightingOnLoad();</script><script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -7,6 +7,19 @@
 
   ga('create', 'UA-94017226-1', 'auto');
   ga('send', 'pageview');
+</script><script>
+  MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['$','$'], ['\(','\)']],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+    }
+  });
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
 </script><meta content="/images/ub.png" property="og:image"><meta content="使用ansible和jenkins快速搭建VPS" property="og:title"><meta content="使用ansible和jenkins快速搭建VPS" property="og:description"></head><body><div class="header"><nav class="container" role="navigation"><div class="site"><a href="/"><img src="/images/ub_blog.svg"></a></div><ul><li><a href="/tags">Tags</a></li><li><a href="/about.html">About</a></li></ul></nav></div><div class="main"><div class="container post"><h1>使用ansible和jenkins快速搭建VPS</h1><div><h4><a href="#使用ansible和jenkins快速搭建vps" id="使用ansible和jenkins快速搭建vps"></a>使用ansible和jenkins快速搭建VPS</h4>
 <p>通常当我们想要尝试一些新技术或者实现一些自己想用的工具时，比起PaaS我更喜欢拥有更多控制权限的<a href="https://en.wikipedia.org/wiki/Virtual_private_server">VPS</a>部署应用。但是VPS依然需要保证基本的安全性，例如禁止root远程登录，只允许通过public key登录、端口管理、对于进程的监控、以及编程语言的各种依赖环境(当然可以直接使用docker，但是docker也是需要安装的)。</p>
 <p>以上这些准备工作我们完全可以通过<a href="https://github.com/ansible/ansible/">ansible</a>完成，为什么还需要jenkins呢？以我个人为例：我一直使用<a href="https://www.digitalocean.com">digitalocean</a>, 当从digitalocean的网站购买了新的VPS，然后添加新的VPS ip地址到ansible的inventory文件，在本地执行ansible-playbook把需要安装的依赖全部装好就行了。没错如果只是自己使用的确已经足够了，可是每当需要新的VPS就不得不自己执行同样的命令，并且如果需要和其他人一起使用这个VPS时，就不得不共享一些安全相关的信息，例如：密码、私钥… 所以如果可以借助jenkins来减少重复工作，并且最低限度的限制共享安全信息，我想使用jenkins会是最好的办法。</p>
