@@ -10,7 +10,7 @@ date-published: 2020-03-22
 headline:
 in-language: en
 keywords: financial 
-draft: true 
+draft: false 
 
 ---
 
@@ -20,7 +20,7 @@ draft: true
 
 #####Moving Average...
 
-####SMA = $$\frac{A1 + A2 + A3 + A4+ An}{n}$$
+####$$SMA = \frac{A1 + A2 + A3 + A4+ An}{n}$$
 
 Simple Moving Average is foundation indicator, many other indicators rely on SMA. SMA formula is rally simple, just sum all close price in period n divided by number of time periods. Usually we use SMA period 9 and SMA period 20 to forecast. In the below screeshot shows SMA20 cross SMA9 for that secnario means stock will tend to move down.
 

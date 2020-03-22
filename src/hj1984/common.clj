@@ -18,6 +18,22 @@
   ga('send', 'pageview');
 "])
 
+(defn math-jax []
+  [:script "
+  MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+    }
+  });
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+"])
+
 (defn head [global-meta]
   [:head
    [:title (:site-title global-meta)]
@@ -30,8 +46,10 @@
    (include-css (str "https://fonts.googleapis.com/css?family=" (url-encode "Source+Code+Pro|Arvo:400,700|Droid+Serif:400,400italic,700")))
    (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js")
    (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js")
+   (include-js "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full")
    [:script "hljs.initHighlightingOnLoad();"]
    (google-analytic)
+   (math-jax)
    ])
 
 (defn head-with-keywords [global-meta title]
